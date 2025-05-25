@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Office Alerts Subscription</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Office Alert System</h1>
+    <form id="subscribeForm">
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="tel" id="phone" placeholder="254712345678" pattern="254[0-9]{9}" required>
+      <label>
+        <input type="checkbox" id="allowPush">
+        Enable browser notifications
+      </label>
+      <button type="submit">Subscribe</button>
+    </form>
+    <p class="admin-link">
+      <a href="admin.html">Admin Dashboard</a>
+    </p>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <h3>Total Subscribers</h3>
+        <p id="totalSubs">0</p>
+      </div>
+      <div class="stat-card">
+        <h3>Push Enabled</h3>
+        <p id="pushSubs">0</p>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="statsChart"></canvas>
+    </div>
+
+    <form id="alertForm">
+      <h2>Send New Alert</h2>
+      <textarea id="alertMessage" placeholder="Type your alert message..." required></textarea>
+      <button type="submit">Send Notification</button>
+    </form>
+  </div>
+  <script src="admin.js"></script>
+</body>
+</html>
