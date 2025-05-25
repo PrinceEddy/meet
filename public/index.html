@@ -5,7 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Office Alerts Subscription</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+  <!-- OneSignal SDK (Modern CDN Version) -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" async></script>
+
+  <!-- OneSignal SDK -->
+  <script src="OneSignalSDK.js" async></script>
+  
+  <!-- Initialization Code -->
+  <script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "07ff6c64-02a3-43a6-a3f6-88d73a8ce397",
+
+      // Required for service worker
+        serviceWorkerPath: "OneSignalSDKWorker.js",
+        serviceWorkerParam: { scope: "/" },
+
+        // Notification prompt settings
+        promptOptions: {
+          slidedown: {
+            enabled: true,
+            autoPrompt: true,
+            pageViews: 3, // Show after 3 page views if not granted
+            timeDelay: 2 // Seconds delay before showing
+          }
+        },
+
+         // Recommended for better UX
+        notifyButton: {
+          enable: true // Show bell icon after permission
+        },
+
+    });
+  });
+</script>
 </head>
 <body>
   <div class="container">
@@ -17,12 +51,36 @@
         <input type="checkbox" id="allowPush">
         Enable browser notifications
       </label>
+      
       <button type="submit">Subscribe</button>
     </form>
+
+    <!-- OneSignal Markup (usually near bottom before </body>) -->
+      <div class='onesignal-customlink-container'></div>
+
     <p class="admin-link">
       <a href="admin.html">Admin Dashboard</a>
     </p>
   </div>
   <script src="script.js"></script>
+  
+  <!-- Fallback for blocked notifications -->
+  <script>
+    if (Notification.permission === "denied") {
+      const blockMsg = document.createElement("div");
+      blockMsg.className = "permission-blocked";
+      blockMsg.innerHTML = `
+        <h3>Notifications Blocked</h3>
+        <p>To receive alerts, please enable notifications:</p>
+        <ol>
+          <li>Click the lock icon in your browser's address bar</li>
+          <li>Select "Site settings"</li>
+          <li>Change "Notifications" to "Allow"</li>
+        </ol>
+        <button onclick="window.location.reload()">I've enabled them</button>
+      `;
+      document.body.appendChild(blockMsg);
+    }
+  </script>
 </body>
 </html>
