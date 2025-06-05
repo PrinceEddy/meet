@@ -3,27 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>KMET Alerts</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link rel="manifest" href="/manifest.json">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <!-- OneSignal SDK (Modern CDN Version) -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" async></script>
+
+  <!-- OneSignal SDK -->
   <script src="OneSignalSDK.js" async></script>
+  
+  <!-- Initialization Code -->
+  <script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "07ff6c64-02a3-43a6-a3f6-88d73a8ce397",
+
+      // Required for service worker
+        serviceWorkerPath: "OneSignalSDKWorker.js",
+        serviceWorkerParam: { scope: "/" },
+
+        // Notification prompt settings
+        promptOptions: {
+          slidedown: {
+            enabled: true,
+            autoPrompt: true,
+            pageViews: 3, // Show after 3 page views if not granted
+            timeDelay: 2 // Seconds delay before showing
+          }
+        },
+
+         // Recommended for better UX
+        notifyButton: {
+          enable: true // Show bell icon after permission
+        },
+
+    });
+  });
+</script>
 </head>
 <body>
-  <div class="bcontainer">
-    <div class="logo-container">
-      <img src="kmet logo.PNG" alt="KMET Logo">
-    </div>
-    
-    <h1>KMET ALERTS</h1>
-    
+  <div class="container">
+    <h1>KMET Alerts </h1>
     <form id="subscribeForm">
-      <p class="text-gray-700 mb-6 text-lg">Stay informed with real-time updates from KMET. Click below to enable notifications.</p>
-      
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="tel" id="phone" placeholder="254712345678" pattern="254[0-9]{9}" required>
       <label>
         <input type="checkbox" id="allowPush">
         Enable browser notifications
@@ -32,13 +56,13 @@
       <button type="submit">Subscribe</button>
     </form>
 
-    <div class='onesignal-customlink-container'></div>
+    <!-- OneSignal Markup (usually near bottom before </body>) -->
+      <div class='onesignal-customlink-container'></div>
 
     <p class="admin-link">
-      <a href="#">News</a>
+      <a href="#">Admin Dashboard</a>
     </p>
   </div>
-
   <script src="script.js"></script>
   
   <!-- Fallback for blocked notifications -->
