@@ -1,9 +1,6 @@
 :root {
-  --primary: #3498db;
-  --secondary: #2ecc71;
-  --dark: #2c3e50;
-  --light: #ecf0f1;
-  --danger: #e74c3c;
+  --primary-blue: #1E3A8A; /* Deep Blue */
+  --accent-yellow: #FFD700; /* Bright Yellow */
 }
 
 * {
@@ -104,7 +101,22 @@ body::before {
     #0000FF, #FFFF00
   );
  
+  animation: 
+    flow 5s linear infinite, 
+    pulseOutline 4s ease-in-out infinite alternate,
+    riverPulse 7s ease-in-out infinite,
+    cosmicShine 8s linear infinite;
+  z-index: 2;
+  mask: 
+    linear-gradient(#000 0 0) content-box, 
+    linear-gradient(#000 0 0);
+  -webkit-mask: 
+    linear-gradient(#000 0 0) content-box, 
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
   
+}
 
 
 
