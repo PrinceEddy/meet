@@ -68,10 +68,6 @@ body::before {
   animation: float 6s ease-in-out infinite;
 }
  
-@keyframes float {
-  0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
-  50% { transform: translateY(-20px) rotateX(5deg) rotateY(5deg); }
-}
 
 .container{
 
