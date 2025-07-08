@@ -468,13 +468,13 @@
     <section class="py-8 bg-white sticky top-16 z-40 shadow-sm">
         <div class="container mx-auto px-4">
             <div class="category-filter" id="categoryFilter">
-                <button class="filter-btn category-all active" onclick="filterNews('all')">All News</button>
-                <button class="filter-btn category-tech" onclick="filterNews('technology')">Technology</button>
-                <button class="filter-btn category-politics" onclick="filterNews('politics')">Education</button>
-                <button class="filter-btn category-business" onclick="filterNews('business')">Business</button>
-                <button class="filter-btn category-sports" onclick="filterNews('sports')">Sports</button>
-                <button class="filter-btn category-health" onclick="filterNews('health')">Health</button>
-                <button class="filter-btn category-entertainment" onclick="filterNews('entertainment')">Entertainment</button>
+                <button class="filter-btn category-all active" onclick="filterNews('all')">ALL NEWS</button>
+                <button class="filter-btn category-tech" onclick="filterNews('technology')">NURTUREFIRST</button>
+                <button class="filter-btn category-politics" onclick="filterNews('politics')">KTVTC</button>
+                <button class="filter-btn category-business" onclick="filterNews('business')">SACCO</button>
+                <button class="filter-btn category-sports" onclick="filterNews('sports')">SSI+</button>
+                <button class="filter-btn category-health" onclick="filterNews('health')">CLINIC</button>
+                <button class="filter-btn category-entertainment" onclick="filterNews('entertainment')">CMHI</button>
             </div>
         </div>
     </section>
@@ -486,6 +486,18 @@
     <section class="py-12 bg-white">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold mb-8 text-center">Latest News</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Article 1 -->
+                <div class="news-card">
+                    <img src="golf.jpg" alt="Sports news" class="w-full h-40 object-cover rounded-t-lg">
+                    <div class="p-4">
+                        <span class="text-xs font-semibold text-blue-600">Sports</span>
+                        <h3 class="text-lg font-bold mb-2">KMET Tees Off at Nyanza Club Golf Tournament</h3>
+                        <p class="text-gray-600 text-sm mb-3">KMET proudly participated in the Nyanza Club Golf Tournament on 5th July 2025, combining our passion for community development with the spirit of sportsmanship. The event provided valuable networking opportunities with partners while promoting health and wellness through active engagement. Our team enjoyed representing KMET on the greens, demonstrating that social impact and friendly competition go hand-in-hand. We look forward to more initiatives that blend organizational values with sporting camaraderie.</p>
+                        <button class="read-more-btn text-sm" onclick="openModal('modal4')">Read More</button>
+                    </div>
+                </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Article 1 -->
