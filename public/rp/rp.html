@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>News Management System</h1>
+            <nav>
+                <button id="reporterBtn" class="nav-btn active">Reporter</button>
+                <button id="editorBtn" class="nav-btn">Editor</button>
+                <button id="adminBtn" class="nav-btn">Admin</button>
+            </nav>
+        </header>
+
+        <!-- Reporter Section -->
+        <div id="reporterSection" class="section active">
+            <div class="reporter-tabs">
+                <button id="writeStoryTab" class="tab-btn active">Write Story</button>
+                <button id="myStoriesTab" class="tab-btn">My Stories</button>
+            </div>
+
+            <!-- Write Story Tab -->
+            <div id="writeStoryContent" class="tab-content active">
+                <h2>Submit Your Story</h2>
+                <form id="storyForm" class="story-form">
+                    <div class="form-group">
+                        <label for="reporterName">Reporter Name:</label>
+                        <input type="text" id="reporterName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="storyTitle">Story Title:</label>
+                        <input type="text" id="storyTitle" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="storyContent">Story Content:</label>
+                        <textarea id="storyContent" rows="10" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="storyImage">Upload Image:</label>
+                        <input type="file" id="storyImage" accept="image/*">
+                        <div id="imagePreview" class="image-preview"></div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Submit Story</button>
+                </form>
+            </div>
+
+            <!-- My Stories Tab -->
+            <div id="myStoriesContent" class="tab-content">
+                <h2>My Stories</h2>
+                <div id="reporterStories" class="stories-list"></div>
+            </div>
+        </div>
+
+        <!-- Editor Section -->
+        <div id="editorSection" class="section">
+            <div class="login-form" id="editorLogin">
+                <h2>Editor Login</h2>
+                <input type="text" id="editorUsername" placeholder="Username">
+                <input type="password" id="editorPassword" placeholder="Password">
+                <button onclick="editorAuth()">Login</button>
+            </div>
+            
+            <div id="editorContent" class="editor-content" style="display: none;">
+                <h2>Story Review Dashboard</h2>
+                <div id="editorStories" class="stories-list"></div>
+            </div>
+        </div>
+
+        <!-- Admin Section -->
+        <div id="adminSection" class="section">
+            <div class="login-form" id="adminLogin">
+                <h2>Admin Login</h2>
+                <input type="text" id="adminUsername" placeholder="Username">
+                <input type="password" id="adminPassword" placeholder="Password">
+                <button onclick="adminAuth()">Login</button>
+            </div>
+            
+            <div id="adminContent" class="admin-content" style="display: none;">
+                <h2>Admin Dashboard</h2>
+                <button onclick="clearAllStories()" class="danger-btn">Clear All Stories</button>
+                <div id="adminStories" class="stories-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Story Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Story</h2>
+            <form id="editStoryForm">
+                <div class="form-group">
+                    <label for="editReporterName">Reporter Name:</label>
+                    <input type="text" id="editReporterName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editStoryTitle">Story Title:</label>
+                    <input type="text" id="editStoryTitle" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editStoryContent">Story Content:</label>
+                    <textarea id="editStoryContent" rows="10" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editStoryImage">Update Image:</label>
+                    <input type="file" id="editStoryImage" accept="image/*">
+                    <div id="editImagePreview" class="image-preview"></div>
+                </div>
+                
+                <button type="submit" class="submit-btn">Update Story</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
