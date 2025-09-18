@@ -7,6 +7,7 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-yellow: #FFD700;
@@ -14,17 +15,19 @@
             --primary-blue: #4361EE;
             --secondary-blue: #3A0CA3;
             --dark-bg: #0A0A0A;
+            --accent-purple: #7209B7;
+            --accent-red: #F72585;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: #f8f9fa;
             color: #333;
             overflow-x: hidden;
         }
         
         .gradient-bg {
-            background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--primary-blue) 100%);
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-purple) 50%, var(--secondary-blue) 100%);
             background-size: 200% 200%;
             animation: gradientBG 15s ease infinite;
         }
@@ -36,82 +39,121 @@
         }
         
         .news-card {
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
             overflow: hidden;
             background: white;
             transform-style: preserve-3d;
             perspective: 1000px;
+            position: relative;
+        }
+        
+        .news-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.7) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
         }
         
         .news-card:hover {
-            transform: translateY(-5px) rotateX(5deg);
-            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .news-card:hover::before {
+            opacity: 1;
+        }
+        
+        .news-card-image {
+            transition: transform 0.5s ease;
+        }
+        
+        .news-card:hover .news-card-image {
+            transform: scale(1.05);
         }
         
         .category-tag {
             position: absolute;
             top: 15px;
             right: 15px;
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: bold;
             text-transform: uppercase;
-            z-index: 2;
+            z-index: 3;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
         .read-more-btn {
             background: linear-gradient(to right, var(--primary-blue), var(--secondary-blue));
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 2;
         }
         
-        .read-more-btn::after {
+        .read-more-btn::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to bottom right,
-                rgba(255, 255, 255, 0.3),
-                rgba(255, 255, 255, 0)
-            );
-            transform: rotate(30deg);
-            transition: all 0.3s ease;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
         }
         
         .read-more-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(67, 97, 238, 0.4);
         }
         
-        .read-more-btn:hover::after {
+        .read-more-btn:hover::before {
             left: 100%;
         }
         
         .navbar {
             backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
         
         .hero-title {
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(to right, var(--primary-yellow), var(--primary-blue));
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(to right, var(--primary-yellow), var(--primary-blue), var(--accent-purple));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             display: inline-block;
+            animation: gradientShift 8s ease infinite;
+            background-size: 300% 300%;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         .pulse {
@@ -120,13 +162,13 @@
         
         @keyframes pulse {
             0% {
-                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+                box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.7);
             }
             70% {
-                box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+                box-shadow: 0 0 0 12px rgba(67, 97, 238, 0);
             }
             100% {
-                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+                box-shadow: 0 0 0 0 rgba(67, 97, 238, 0);
             }
         }
         
@@ -153,7 +195,7 @@
         
         .newsletter-input:focus {
             border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
         }
         
         .newsletter-btn {
@@ -164,8 +206,8 @@
         }
         
         .newsletter-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(255, 215, 0, 0.3);
         }
         
         .floating-shapes {
@@ -180,15 +222,16 @@
         
         .shape {
             position: absolute;
-            opacity: 0.1;
+            opacity: 0.08;
             border-radius: 50%;
-            animation: float 15s infinite linear;
+            animation: float 20s infinite ease-in-out;
         }
         
         @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-            100% { transform: translateY(0) rotate(360deg); }
+            0% { transform: translateY(0) rotate(0deg) scale(1); }
+            33% { transform: translateY(-20px) rotate(120deg) scale(1.1); }
+            66% { transform: translateY(10px) rotate(240deg) scale(0.9); }
+            100% { transform: translateY(0) rotate(360deg) scale(1); }
         }
         
         .shape-1 {
@@ -198,6 +241,7 @@
             top: -50px;
             left: -50px;
             animation-delay: 0s;
+            animation-duration: 25s;
         }
         
         .shape-2 {
@@ -206,16 +250,18 @@
             background-color: var(--primary-blue);
             bottom: -100px;
             right: -100px;
-            animation-delay: 3s;
+            animation-delay: 5s;
+            animation-duration: 30s;
         }
         
         .shape-3 {
             width: 150px;
             height: 150px;
-            background-color: var(--secondary-blue);
+            background-color: var(--accent-purple);
             top: 30%;
             left: 20%;
-            animation-delay: 6s;
+            animation-delay: 10s;
+            animation-duration: 20s;
         }
         
         .shape-4 {
@@ -224,34 +270,38 @@
             background-color: var(--secondary-yellow);
             bottom: 20%;
             right: 30%;
-            animation-delay: 9s;
+            animation-delay: 15s;
+            animation-duration: 25s;
         }
         
         .category-filter {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 30px;
         }
         
         .filter-btn {
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
         }
         
         .filter-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
         }
         
         .filter-btn.active {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+            border-color: white;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3), 0 7px 14px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
         }
         
         .category-all {
@@ -304,6 +354,24 @@
             background-color: rgba(255, 255, 255, 0.5);
             border-radius: 50%;
             pointer-events: none;
+            animation: floatParticle 20s infinite linear;
+        }
+        
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
         }
         
         .hero-content {
@@ -319,12 +387,21 @@
             width: 40%;
             max-width: 500px;
             z-index: 1;
-            opacity: 0.8;
+            opacity: 0.9;
+            border-radius: 16px 0 0 16px;
+            box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease;
+        }
+        
+        .hero-image:hover {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.02);
         }
         
         .nav-link {
             position: relative;
             padding-bottom: 5px;
+            font-weight: 500;
         }
         
         .nav-link::after {
@@ -348,21 +425,301 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            font-weight: 500;
+            white-space: nowrap;
         }
         
         .subscribe-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+            box-shadow: 0 7px 14px rgba(67, 97, 238, 0.3);
         }
         
         .mobile-menu {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.5s ease;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         
         .mobile-menu.active {
             max-height: 500px;
+        }
+        
+        .search-bar {
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-bar:focus-within {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-yellow), var(--primary-blue));
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.4s ease;
+        }
+        
+        .card-content {
+            position: relative;
+            z-index: 2;
+            background: white;
+            padding: 1.5rem;
+        }
+        
+        .date-badge {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: linear-gradient(to right, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 3;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-yellow), var(--primary-blue));
+            border-radius: 2px;
+        }
+        
+        .section-title.center::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* Slideshow styles */
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            height: 400px;
+        }
+        
+        .slide {
+            display: none;
+            height: 400px;
+            position: relative;
+        }
+        
+        .slide.active {
+            display: block;
+            animation: fadeIn 1s ease;
+        }
+        
+        .slide-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 20px;
+        }
+        
+        .slide-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 20px;
+            z-index: 5;
+        }
+        
+        .slide-nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .slide-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 5;
+        }
+        
+        .slide-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-indicator.active {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        /* World news sidebar */
+        .world-news-container {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .world-news-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .world-news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .world-news-item h4 {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .world-news-source {
+            font-size: 0.8rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Search suggestions */
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            display: none;
+        }
+        
+        .search-suggestions.active {
+            display: block;
+        }
+        
+        .suggestion-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .suggestion-item:hover {
+            background: #f0f0f0;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 16px;
+            overflow: hidden;
+            animation: modalFadeIn 0.4s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: rotate(90deg);
         }
         
         @media (max-width: 768px) {
@@ -378,17 +735,79 @@
             .category-filter {
                 justify-content: flex-start;
                 overflow-x: auto;
-                padding-bottom: 10px;
+                padding-bottom: 15px;
                 -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            
+            .category-filter::-webkit-scrollbar {
+                display: none;
             }
             
             .filter-btn {
                 flex: 0 0 auto;
+                font-size: 0.8rem;
+                padding: 8px 16px;
             }
+            
+            .news-card {
+                margin-bottom: 1.5rem;
+            }
+            
+            .subscribe-btn, .reporter-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* New animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        
+        /* Improved navigation */
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .reporter-btn {
+            background: linear-gradient(to right, var(--accent-purple), var(--secondary-blue));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        
+        .reporter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(114, 9, 183, 0.3);
         }
     </style>
 </head>
 <body>
+    <!-- Loading bar -->
+    <div class="loading-bar" id="loadingBar"></div>
+    
     <!-- Floating background shapes -->
     <div class="floating-shapes">
         <div class="shape shape-1"></div>
@@ -401,7 +820,7 @@
     <div class="particles" id="particles"></div>
     
     <!-- Navigation -->
-    <nav class="navbar fixed top-0 w-full z-50">
+    <nav class="navbar fixed top-0 w-full z-50" id="navbar">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center">
                 <span class="text-2xl font-bold">
@@ -415,15 +834,15 @@
                 <a href="#" class="nav-link font-medium transition" onclick="scrollToSection('business')">Business</a>
                 <a href="#" class="nav-link font-medium transition" onclick="scrollToSection('sports')">Sports</a>
             </div>
-            <div class="flex items-center space-x-4">
-                <button class="md:hidden text-gray-700" id="mobileMenuButton">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-                <button  onclick="window.location.href='https://metk.netlify.app/'" class="hidden md:block subscribe-btn px-4 py-2 rounded-full font-medium">
+            <div class="nav-buttons">
+                <button onclick="window.location.href='https://metk.netlify.app/'" class="subscribe-btn px-4 py-2 rounded-full font-medium hidden md:block">
                     Subscribe
                 </button>
-                 <button  onclick="window.location.href='/rp/rp.html'" class="subscribe-btn px-4 py-2 rounded-full font-medium w-full">
+                <button onclick="window.location.href='/rp/rp.html'" class="reporter-btn px-4 py-2 rounded-full font-medium hidden md:block">
                     Reporter
+                </button>
+                <button class="md:hidden text-gray-700" id="mobileMenuButton">
+                    <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
         </div>
@@ -436,13 +855,12 @@
                 <a href="#" class="nav-link font-medium transition" onclick="scrollToSection('technology')">Technology</a>
                 <a href="#" class="nav-link font-medium transition" onclick="scrollToSection('business')">Business</a>
                 <a href="#" class="nav-link font-medium transition" onclick="scrollToSection('sports')">Sports</a>
-                <button  onclick="window.location.href='https://metk.netlify.app/'" class="subscribe-btn px-4 py-2 rounded-full font-medium w-full">
+                <button onclick="window.location.href='https://metk.netlify.app/'" class="subscribe-btn px-4 py-2 rounded-full font-medium w-full mt-4">
                     Subscribe
                 </button>
-                 <button  onclick="window.location.href='/rp/rp.html'" class="subscribe-btn px-4 py-2 rounded-full font-medium w-full">
+                <button onclick="window.location.href='/rp/rp.html'" class="reporter-btn px-4 py-2 rounded-full font-medium w-full">
                     Reporter
                 </button>
-                
             </div>
         </div>
     </nav>
@@ -452,17 +870,28 @@
         <div class="absolute inset-0 bg-black opacity-10"></div>
         <div class="container mx-auto px-4 hero-content relative z-10">
             <div class="max-w-3xl mx-auto text-center relative">
-                <h1 class="hero-title text-4xl md:text-6xl font-bold mb-6 animate-bounce">Stay Informed with <span class="underline decoration-wavy">K-News</span></h1>
+                <h1 class="hero-title text-4xl md:text-6xl font-bold mb-6">Stay Informed with <span class="underline decoration-wavy">K-News</span></h1>
                 <p class="text-xl mb-8 opacity-90">Your trusted source for the latest breaking news and in-depth stories from around the world.</p>
-                <div class="relative max-w-xl mx-auto">
-                    <input type="text" id="searchInput" placeholder="Search for news..." class="w-full py-3 px-6 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                    <button class="absolute right-2 top-2 bg-yellow-400 text-gray-800 py-1 px-4 rounded-full font-medium hover:bg-yellow-300 transition" onclick="searchNews()">
-                        <i class="fas fa-search"></i>
+                <div class="search-bar relative max-w-xl mx-auto rounded-full bg-white overflow-hidden">
+                    <input type="text" id="searchInput" placeholder="Search for news..." class="w-full py-4 px-6 text-gray-800 focus:outline-none" onkeyup="showSearchSuggestions()">
+                    <button class="absolute right-2 top-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 px-5 rounded-full font-medium hover:opacity-90 transition" onclick="searchNews()">
+                        <i class="fas fa-search"></i> Search
                     </button>
+                    <div class="search-suggestions" id="searchSuggestions">
+                        <div class="suggestion-item" onclick="selectSuggestion('technology')"><i class="fas fa-laptop-code mr-2 text-blue-500"></i> Technology</div>
+                        <div class="suggestion-item" onclick="selectSuggestion('education')"><i class="fas fa-graduation-cap mr-2 text-green-500"></i> Education</div>
+                        <div class="suggestion-item" onclick="selectSuggestion('health')"><i class="fas fa-heartbeat mr-2 text-red-500"></i> Health</div>
+                        <div class="suggestion-item" onclick="selectSuggestion('business')"><i class="fas fa-chart-line mr-2 text-purple-500"></i> Business</div>
+                        <div class="suggestion-item" onclick="selectSuggestion('sports')"><i class="fas fa-running mr-2 text-yellow-500"></i> Sports</div>
+                        <div class="suggestion-item" onclick="selectSuggestion('today')"><i class="fas fa-calendar-day mr-2 text-indigo-500"></i> Today's News</div>
+                        <div class="suggestion-item" onclick="selectSuggestion('week')"><i class="fas fa-calendar-week mr-2 text-pink-500"></i> This Week</div>
+                    </div>
                 </div>
                 <div class="mt-8 flex justify-center space-x-4">
-                   
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-medium hover:bg-blue-700 transition flex items-center">
+                    <button class="bg-white text-gray-800 px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition flex items-center shadow-md">
+                        <i class="fas fa-play-circle mr-2"></i> Watch Demo
+                    </button>
+                    <button class="bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition flex items-center shadow-md" onclick="scrollToSection('latest-news')">
                         <i class="fas fa-newspaper mr-2"></i> Read Latest
                     </button>
                 </div>
@@ -471,151 +900,298 @@
         <img src="https://source.unsplash.com/random/800x600/?news" alt="News background" class="hero-image rounded-l-lg shadow-xl">
     </section>
     
+    <!-- Image Slideshow -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 text-center section-title center">Featured Stories</h2>
+            
+            <div class="slideshow-container">
+                <div class="slide active">
+                    <img src="summit.jpeg" alt="ASCA Summit" class="slide-image">
+                    <div class="slide-content">
+                        <h3 class="text-2xl font-bold">ASCA Summit</h3>
+                        <p>KMET participated in the Smart City Summit, engaging with key delegates and showcasing innovative initiatives.</p>
+                    </div>
+                </div>
+                
+                <div class="slide">
+                    <img src="youth.jpg" alt="Youth Day Celebration" class="slide-image">
+                    <div class="slide-content">
+                        <h3 class="text-2xl font-bold">International Youth Day</h3>
+                        <p>KMET volunteers celebrated International Youth Day, highlighting the power of young people in driving community change.</p>
+                    </div>
+                </div>
+                
+                <div class="slide">
+                    <img src="child.jpeg" alt="African Child Day" class="slide-image">
+                    <div class="slide-content">
+                        <h3 class="text-2xl font-bold">Day of The African Child</h3>
+                        <p>Over 300 participants celebrated through sport, SRHR education, and environmental stewardship.</p>
+                    </div>
+                </div>
+                
+                <div class="slide">
+                    <img src="golf.jpg" alt="Golf Tournament" class="slide-image">
+                    <div class="slide-content">
+                        <h3 class="text-2xl font-bold">Nyanza Club Golf Tournament</h3>
+                        <p>KMET proudly participated, combining community development with the spirit of sportsmanship.</p>
+                    </div>
+                </div>
+                
+                <div class="slide-nav">
+                    <button class="slide-nav-btn" onclick="plusSlides(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slide-nav-btn" onclick="plusSlides(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="slide-indicators">
+                    <span class="slide-indicator active" onclick="currentSlide(1)"></span>
+                    <span class="slide-indicator" onclick="currentSlide(2)"></span>
+                    <span class="slide-indicator" onclick="currentSlide(3)"></span>
+                    <span class="slide-indicator" onclick="currentSlide(4)"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <!-- Category Filter -->
     <section class="py-8 bg-white sticky top-16 z-40 shadow-sm">
         <div class="container mx-auto px-4">
             <div class="category-filter" id="categoryFilter">
                 <button class="filter-btn category-all active" onclick="filterNews('all')">ALL NEWS</button>
-                <button class="filter-btn category-tech" onclick="filterNews('technology')">NURTUREFIRST</button>
-                <button class="filter-btn category-politics" onclick="filterNews('politics')">KTVTC</button>
-                <button class="filter-btn category-business" onclick="filterNews('business')">SACCO</button>
-                <button class="filter-btn category-sports" onclick="filterNews('sports')">SSI+</button>
-                <button class="filter-btn category-health" onclick="filterNews('health')">CLINIC</button>
-                <button class="filter-btn category-entertainment" onclick="filterNews('entertainment')">CMHI</button>
+                <button class="filter-btn category-tech" onclick="filterNews('nurturefirst')">NURTUREFIRST</button>
+                <button class="filter-btn category-politics" onclick="filterNews('ktvet')">KTVET</button>
+                <button class="filter-btn category-business" onclick="filterNews('sacco')">SACCO</button>
+                <button class="filter-btn category-sports" onclick="filterNews('ssi')">SSI+</button>
+                <button class="filter-btn category-health" onclick="filterNews('clinic')">CLINIC</button>
+                <button class="filter-btn category-entertainment" onclick="filterNews('cmhi')">CMHI</button>
             </div>
         </div>
     </section>
 
-
-     
-    
     <!-- Latest News Section -->
-    <section class="py-12 bg-white">
+    <section class="py-12 bg-gray-50" id="latest-news">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-8 text-center">Latest News</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <div class="lg:col-span-3">
+                    <h2 class="text-3xl font-bold mb-8 section-title">Latest News</h2>
 
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="newsContainer">
 
-            <!-- Article 01 -->
-                <div class="news-card">
-                    <img src="summit.jpeg" alt="Entertainment news" class="w-full h-40 object-cover rounded-t-lg">
-                    <div class="p-4">
-                        <span class="text-xs font-semibold text-purple-600">Office</span>
-                        <h3 class="text-lg font-bold mb-2">ASCA Summit</h3>
-                        <p class="text-gray-600 text-sm mb-3">KMET participated in the Smart City Summit, where we had the opportunity to engage with the Governor’s team, members of the county cabinet, and other key delegates. During the summit, our team presented KMET’s mission and highlighted our innovative initiatives in health, education, and sustainable development.Through this engagement, we reaffirmed our commitment to partnerships that foster smart, inclusive, and sustainable cities, while showcasing the role of social enterprises such as the Centre for Maternal Health Innovations (CMHI).</p>
-                        <button class="read-more-btn text-sm" onclick="openModal('modal4')">Read More</button>
+                        <!-- Article 01 -->
+                        <div class="news-card animate-fade-in delay-100" data-category="nurturefirst">
+                            <div class="relative overflow-hidden">
+                                <img src="summit.jpeg" alt="ASCA Summit" class="w-full h-48 object-cover news-card-image">
+                                <span class="category-tag bg-blue-500 text-white">Office</span>
+                                <div class="date-badge">Jun 15, 2023</div>
+                            </div>
+                            <div class="card-content">
+                                <span class="text-xs font-semibold text-purple-600">Leadership</span>
+                                <h3 class="text-lg font-bold mb-2 mt-2">ASCA Summit</h3>
+                                <p class="text-gray-600 text-sm mb-4">KMET participated in the Smart City Summit, where we had the opportunity to engage with the Governor's team, members of the county cabinet, and other key delegates...</p>
+                                <button class="read-more-btn text-sm" onclick="openModal('ascasummit')">Read More</button>
+                            </div>
+                        </div>
+
+                        <!-- Article 1 -->
+                        <div class="news-card animate-fade-in delay-200" data-category="nurturefirst">
+                            <div class="relative overflow-hidden">
+                                <img src="youth.jpg" alt="KMET Volunteers" class="w-full h-48 object-cover news-card-image">
+                                <span class="category-tag bg-green-500 text-white">Events</span>
+                                <div class="date-badge">Aug 12, 2023</div>
+                            </div>
+                            <div class="card-content">
+                                <span class="text-xs font-semibold text-purple-600">Community</span>
+                                <h3 class="text-lg font-bold mb-2 mt-2">KMET Volunteers Celebrate International Youth Day</h3>
+                                <p class="text-gray-600 text-sm mb-4">KMET volunteers joined hands to celebrate International Youth Day, with the event highlighting the power of young people in driving community change...</p>
+                                <button class="read-more-btn text-sm" onclick="openModal('youthday')">Read More</button>
+                            </div>
+                        </div>
+
+                        <!-- Article 0 -->
+                        <div class="news-card animate-fade-in delay-300" data-category="clinic">
+                            <div class="relative overflow-hidden">
+                                <img src="kp.jpeg" alt="KMET and PharmAccess" class="w-full h-48 object-cover news-card-image">
+                                <span class="category-tag bg-purple-500 text-white">Partnership</span>
+                                <div class="date-badge">Sep 5, 2023</div>
+                            </div>
+                            <div class="card-content">
+                                <span class="text-xs font-semibold text-purple-600">Health</span>
+                                <h3 class="text-lg font-bold mb-2 mt-2">KMET and PharmAccess Representative Meeting</h3>
+                                <p class="text-gray-600 text-sm mb-4">KMET and PharmAccess convened an inception meeting focused on proposal development, collaboration frameworks, and fundraising strategies aimed at enhancing healthcare quality...</p>
+                                <button class="read-more-btn text-sm" onclick="openModal('pharmaccess')">Read More</button>
+                            </div>
+                        </div>
+
+                        <!-- Article 1 -->
+                        <div class="news-card animate-fade-in delay-400" data-category="ssi">
+                            <div class="relative overflow-hidden">
+                                <img src="golf.jpg" alt="Golf Tournament" class="w-full h-48 object-cover news-card-image">
+                                <span class="category-tag bg-red-500 text-white">Sports</span>
+                                <div class="date-badge">Jul 22, 2023</div>
+                            </div>
+                            <div class="card-content">
+                                <span class="text-xs font-semibold text-purple-600">Recreation</span>
+                                <h3 class="text-lg font-bold mb-2 mt-2">KMET Tees Off at Nyanza Club Golf Tournament</h3>
+                                <p class="text-gray-600 text-sm mb-4">KMET proudly participated in the Nyanza Club Golf Tournament which was attended by Siaya Senator Oburu Odinga, the event combined our passion for community development...</p>
+                                <button class="read-more-btn text-sm" onclick="openModal('golf')">Read More</button>
+                            </div>
+                        </div>
+
+                        <!-- Additional articles with similar structure -->
+                        <!-- Article 2 -->
+                        <div class="news-card animate-fade-in delay-100" data-category="ssi">
+                            <div class="relative overflow-hidden">
+                                <img src="child.jpeg" alt="African Child Day" class="w-full h-48 object-cover news-card-image">
+                                <span class="category-tag bg-yellow-500 text-gray-800">Children</span>
+                                <div class="date-badge">Jun 16, 2023</div>
+                            </div>
+                            <div class="card-content">
+                                <span class="text-xs font-semibold text-purple-600">Events</span>
+                                <h3 class="text-lg font-bold mb-2 mt-2">Day of The African Child</h3>
+                                <p class="text-gray-600 text-sm mb-4">Over 300 participants turned up to celebrate the Day of the African Child through the power of sport. Beyond the court, children engaged in comprehensive SRHR education...</p>
+                                <button class="read-more-btn text-sm" onclick="openModal('africanchild')">Read More</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Article 3 -->
+                        <div class="news-card animate-fade-in delay-200" data-category="clinic">
+                            <div class="relative overflow-hidden">
+                                <img src="hiv.png" alt="HIV Vaccine" class="w-full h-48 object-cover news-card-image">
+                                <span class="category-tag bg-blue-500 text-white">Health</span>
+                                <div class="date-badge">Jun 18, 2023</div>
+                            </div>
+                            <div class="card-content">
+                                <span class="text-xs font-semibold text-purple-600">Science</span>
+                                <h3 class="text-lg font-bold mb-2 mt-2">HIV Vaccine</h3>
+                                <p class="text-gray-600 text-sm mb-4">The Food and Drug Administration approved Wednesday a powerful new drug that provides nearly complete protection against HIV infection with just a single administration every six months.</p>
+                                <button class="read-more-btn text-sm" onclick="openModal('hiv')">Read More</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Article 4 -->
+                        <div class="news-card animate-fade-in delay-300" data-category="ktvet">
+                            <div class="relative overflow-hidden">
+                                <img src="mig.png" alt="Migori County" class="w-full h-48 object-cover news-card-image">
+                                <span class="category-tag bg-green-500 text-white">Policy</span>
+                                <div class="date-badge">May 10, 2023</div>
+                            </div>
+                            <div class="card-content">
+                                <span class="text-xs font-semibold text-purple-600">Education</span>
+                                <h3 class="text-lg font-bold mb-2 mt-2">Migori County Adopts the Smart Start Initiative</h3>
+                                <p class="text-gray-600 text-sm mb-4">Progressively maintain extensive infomediaries via extensible niches. Dramatically disseminate standardized metrics after resource-leveling processes...</p>
+                                <button class="read-more-btn text-sm" onclick="openModal('migori')">Read More</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Article 5 -->
+                        <div class="news-card animate-fade-in delay-400" data-category="clinic">
+                            <div class="relative overflow-hidden">
+                                <img src="free.png" alt="Cancer Prevention" class="w-full h-48 object-cover news-card-image">
+                                <span class="category-tag bg-pink-500 text-white">Health</span>
+                                <div class="date-badge">Apr 28, 2023</div>
+                            </div>
+                            <div class="card-content">
+                                <span class="text-xs font-semibold text-purple-600">Awareness</span>
+                                <h3 class="text-lg font-bold mb-2 mt-2">Cancer Prevention Drive – Homabay</h3>
+                                <p class="text-gray-600 text-sm mb-4">Globally incubate standards compliant channels before scalable benefits. Quickly disseminate superior deliverables whereas web-enabled applications...</p>
+                                <button class="read-more-btn text-sm" onclick="openModal('cancer')">Read More</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-
-                <!-- Article 1 -->
-                <div class="news-card">
-                    <img src="youth.jpg" alt="Entertainment news" class="w-full h-40 object-cover rounded-t-lg">
-                    <div class="p-4">
-                        <span class="text-xs font-semibold text-purple-600">Office</span>
-                        <h3 class="text-lg font-bold mb-2">KMET Volunteers Celebrate International Youth Day</h3>
-                        <p class="text-gray-600 text-sm mb-3">KMET volunteers joined hands to celebrate International Youth Day, with the event highlighting the power of young people in driving community change. The Reproductive Health (RH) Department led the celebrations by taking time to educate volunteers on the importance of meaningful youth participation. Through interactive discussions, the RH team emphasized that youth should not only benefit from programs but also take active roles in decision-making and leadership. Volunteers reflected on their experiences, shared ideas, and pledged to use their voices and energy to create positive impact in their communities. The day ended with a strong call to action: for youth to champion participation and remain at the forefront of shaping healthier, more inclusive futures.</p>
-                        <button class="read-more-btn text-sm" onclick="openModal('modal4')">Read More</button>
-                    </div>
-                </div>
-
-                <!-- Article 0 -->
-                <div class="news-card">
-                    <img src="kp.jpeg" alt="Entertainment news" class="w-full h-40 object-cover rounded-t-lg">
-                    <div class="p-4">
-                        <span class="text-xs font-semibold text-purple-600">Office</span>
-                        <h3 class="text-lg font-bold mb-2">KMET and PharmAccess Representative Meeting</h3>
-                        <p class="text-gray-600 text-sm mb-3">KMET and PharmAccess convened an inception meeting focused on proposal development, collaboration frameworks, and fundraising strategies aimed at enhancing healthcare quality. During the session, the teams deliberated on the comparative strengths of both organizations, identified strategic opportunities for partnership, and mapped prospective donors at the local, regional, and international levels. Additionally, a comprehensive donor engagement strategy was formulated, underscoring the importance of thorough documentation and cost analysis. A detailed action plan was developed, outlining specific tasks, timelines, and responsibilities. Certain assignments were delegated to individual team members, while others will be executed collaboratively to September 5th. The action items include:
-                            Analysis of potential strategic partners
-                            Development of a teaming agreement
-                            Review of partner analyses and areas of mutual interest
-                            Drafting of concept notes
-                            Review and finalization of concept notes.</p>
-                        <button class="read-more-btn text-sm" onclick="openModal('modal4')">Read More</button>
-                    </div>
-                </div>
-
-                <!-- Article 1 -->
-                <div class="news-card">
-                    <img src="golf.jpg" alt="Entertainment news" class="w-full h-40 object-cover rounded-t-lg">
-                    <div class="p-4">
-                        <span class="text-xs font-semibold text-purple-600">Sports</span>
-                        <h3 class="text-lg font-bold mb-2">KMET Tees Off at Nyanza Club Golf Tournament</h3>
-                        <p class="text-gray-600 text-sm mb-3">KMET proudly participated in the Nyanza Club Golf Tournament which was attended by Siaya Senator Oburu Odinga, the event combined our passion for community development with the spirit of sportsmanship. The event provided valuable networking opportunities with partners while promoting health and wellness through active engagement. Our team enjoyed representing KMET on the greens, demonstrating that social impact and friendly competition go hand-in-hand. We look forward to more initiatives that blend organizational values with sporting camaraderie</p>
-                        <button class="read-more-btn text-sm" onclick="openModal('modal4')">Read More</button>
-                    </div>
-                </div>
-
-
-                <!-- Article 2 -->
-                <div class="news-card">
-                    <img src="child.jpeg" alt="Sports news" class="w-full h-40 object-cover rounded-t-lg">
-                    <div class="p-4">
-                        <span class="text-xs font-semibold text-blue-600">Sports</span>
-                        <h3 class="text-lg font-bold mb-2">Day of The African Child</h3>
-                        <p class="text-gray-600 text-sm mb-3">Over 300 participants turned up to celebrate the Day of the African Child through the power of sport. Beyond the court, children engaged in comprehensive SRHR education, environmental stewardship, and youth development dialogues proving that basketball can be more than a game.
-                        From HPV vaccinations to health check-ups, the event also offered vital services, showing that sports for social impact is not only scalable but transformative.
-                        </p>
-                        <button class="read-more-btn text-sm" onclick="openModal('modal4')">Read More</button>
+                    
+                    <div class="text-center mt-12">
+                        <button onclick="window.location.href='https://kmet.co.ke/blog-2/'" class="bg-white border-2 border-blue-600 text-blue-600 px-8 py-3 rounded-full font-medium hover:bg-blue-50 transition shadow-md flex items-center justify-center mx-auto">
+                            <i class="fas fa-redo-alt mr-2"></i> Load More Stories
+                        </button>
                     </div>
                 </div>
                 
-                <!-- Article 3 -->
-                <div class="news-card">
-                    <img src="hiv.png" alt="Science news" class="w-full h-40 object-cover rounded-t-lg">
-                    <div class="p-4">
-                        <span class="text-xs font-semibold text-yellow-600">Science</span>
-                        <h3 class="text-lg font-bold mb-2">HIV Vaccine</h3>
-                        <p class="text-gray-600 text-sm mb-3">The Food and Drug Administration approved Wednesday a powerful new drug that provides nearly complete protection against HIV infection with just a single administration every six months.</p>
-                        <button onclick="window.location.href='https://www.statnews.com/2025/06/18/fda-approves-gilead-hiv-prevention-drug-lenacapavir-yeztugo-next-best-thing-to-vaccine/'"  class="read-more-btn text-sm" onclick="openModal('modal5')">Read More</button>
+                <!-- World News Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="sticky top-32">
+                        <h2 class="text-2xl font-bold mb-6 section-title">World News</h2>
+                        <div class="world-news-container">
+                            <div class="world-news-item">
+                                <h4 class="font-semibold">Global Climate Summit Reaches Historic Agreement</h4>
+                                <p class="text-sm text-gray-600">World leaders have agreed on ambitious targets to reduce carbon emissions by 2030.</p>
+                                <div class="world-news-source">
+                                    <i class="fas fa-globe-americas mr-2 text-blue-500"></i> International News • 2 hours ago
+                                </div>
+                            </div>
+                            
+                            <div class="world-news-item">
+                                <h4 class="font-semibold">Tech Giant Unveils Revolutionary AI Assistant</h4>
+                                <p class="text-sm text-gray-600">New AI technology promises to transform how we interact with computers and devices.</p>
+                                <div class="world-news-source">
+                                    <i class="fas fa-microchip mr-2 text-purple-500"></i> Tech Daily • 5 hours ago
+                                </div>
+                            </div>
+                            
+                            <div class="world-news-item">
+                                <h4 class="font-semibold">Breakthrough in Renewable Energy Storage</h4>
+                                <p class="text-sm text-gray-600">Scientists develop new battery technology that could make renewable energy more reliable.</p>
+                                <div class="world-news-source">
+                                    <i class="fas fa-battery-full mr-2 text-green-500"></i> Science Journal • 7 hours ago
+                                </div>
+                            </div>
+                            
+                            <div class="world-news-item">
+                                <h4 class="font-semibold">Global Economic Forum Addresses Inflation Concerns</h4>
+                                <p class="text-sm text-gray-600">Financial leaders meet to discuss strategies for stabilizing the global economy.</p>
+                                <div class="world-news-source">
+                                    <i class="fas fa-chart-line mr-2 text-yellow-500"></i> Business Times • 9 hours ago
+                                </div>
+                            </div>
+                            
+                            <div class="world-news-item">
+                                <h4 class="font-semibold">International Space Station Celebrates 25 Years</h4>
+                                <p class="text-sm text-gray-600">The ISS marks a quarter century of scientific discovery and international cooperation.</p>
+                                <div class="world-news-source">
+                                    <i class="fas fa-rocket mr-2 text-red-500"></i> Space News • 12 hours ago
+                                </div>
+                            </div>
+                            
+                            <div class="world-news-item">
+                                <h4 class="font-semibold">World Health Organization Reports Progress on Disease Eradication</h4>
+                                <p class="text-sm text-gray-600">Several infectious diseases are closer to being eliminated thanks to global efforts.</p>
+                                <div class="world-news-source">
+                                    <i class="fas fa-heartbeat mr-2 text-pink-500"></i> Health Bulletin • 1 day ago
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-6 text-white text-center">
+                            <h3 class="text-xl font-bold mb-3">Stay Updated with K-News</h3>
+                            <p class="text-sm mb-4">Get the latest news delivered to your inbox daily</p>
+                            <button onclick="window.location.href='https://metk.netlify.app/'" class="bg-white text-blue-600 font-semibold py-2 px-6 rounded-full hover:bg-blue-50 transition">
+                                Subscribe Now
+                            </button>
+                        </div>
                     </div>
                 </div>
-                
-                <!-- Article 4 -->
-                <div class="news-card">
-                    <img src="mig.png" alt="Entertainment news" class="w-full h-40 object-cover rounded-t-lg">
-                    <div class="p-4">
-                        <span class="text-xs font-semibold text-purple-600">Politics</span>
-                        <h3 class="text-lg font-bold mb-2">Migori County Adopts the Smart Start Initiative-Early Child Development Program</h3>
-                        <p class="text-gray-600 text-sm mb-3">Progressively maintain extensive infomediaries via extensible niches. Dramatically disseminate standardized metrics after resource-leveling processes. Objectively pursue diverse catalysts for change for interoperable meta-services...</p>
-                        <button onclick="window.location.href='https://kmet.co.ke/ngo-calls-for-concrete-steps-to-protect-children-learning/'" class="read-more-btn text-sm" onclick="openModal('modal6')">Read More</button>
-                    </div>
-                </div>
-                
-                <!-- Article 5 -->
-                <div class="news-card">
-                    <img src="free.png" alt="Health news" class="w-full h-40 object-cover rounded-t-lg">
-                    <div class="p-4">
-                        <span class="text-xs font-semibold text-green-600">Health</span>
-                        <h3 class="text-lg font-bold mb-2">Cancer Prevention Drive – Homabay</h3>
-                        <p class="text-gray-600 text-sm mb-3">Globally incubate standards compliant channels before scalable benefits. Quickly disseminate superior deliverables whereas web-enabled applications. Quickly drive clicks-and-mortar catalysts for change before vertical architectures...</p>
-                        <button onclick="window.location.href='https://kmet.co.ke/providing-access-to-clean-safe-and-reliable-water/'"  class="read-more-btn text-sm" onclick="openModal('modal7')">Read More</button>
-                    </div>
-                </div>
-            </div>
-
-
-            
-            <div class="text-center mt-10">
-                <button onclick="window.location.href='https://kmet.co.ke/blog-2/'" class="bg-white border-2 border-blue-600 text-blue-600 px-6 py-2 rounded-full font-medium hover:bg-blue-50 transition">
-                    Load More Stories
-                </button>
             </div>
         </div>
     </section>
     
     <!-- Newsletter Section -->
-    <section class="py-16 gradient-bg text-white">
-        <div class="container mx-auto px-4">
+    <section class="py-16 gradient-bg text-white relative overflow-hidden">
+        <div class="floating-shapes">
+            <div class="shape shape-1" style="background-color: rgba(255,255,255,0.1);"></div>
+            <div class="shape shape-2" style="background-color: rgba(255,255,255,0.1);"></div>
+        </div>
+        <div class="container mx-auto px-4 relative z-10">
             <div class="max-w-3xl mx-auto text-center">
-                <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
-                <p class="mb-8 text-lg opacity-90">Subscribe to our newsletter to receive the latest news directly in your inbox.</p>
+                <h2 class="text-3xl font-bold mb-4">Stay Updated with K-News</h2>
+                <p class="mb-8 text-lg opacity-90">Subscribe to our newsletter to receive the latest news directly in your inbox. Never miss an important update again.</p>
                 
                 <div class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
-                    <input type="email" placeholder="Your email address" class="newsletter-input flex-grow py-3 px-6 rounded-full focus:outline-none text-gray-800">
-                    <button  onclick="window.location.href='https://metk.netlify.app/'" class="newsletter-btn px-6 py-3 rounded-full font-bold text-gray-800">
-                        Subscribe <i class="fas fa-arrow-right ml-2"></i>
+                    <input type="email" placeholder="Your email address" class="newsletter-input flex-grow py-4 px-6 rounded-full focus:outline-none text-gray-800">
+                    <button  onclick="window.location.href='https://metk.netlify.app/'" class="newsletter-btn px-8 py-4 rounded-full font-bold text-gray-800 flex items-center justify-center">
+                        Subscribe Now <i class="fas fa-arrow-right ml-2"></i>
                     </button>
                 </div>
                 
@@ -629,22 +1205,373 @@
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="text-xl font-bold mb-4">K-News</h3>
-                    <p class="text-gray-400">Your trusted source for the latest breaking news and in-depth stories from around the world.</p>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <span class="gradient-text mr-2" style="background: linear-gradient(to right, var(--primary-yellow), var(--primary-blue)); -webkit-background-clip: text; background-clip: text; color: transparent;">K-News</span>
+                        <span class="text-sm bg-blue-500 rounded-full px-2 py-1">Beta</span>
+                    </h3>
+                    <p class="text-gray-400 mb-4">Your trusted source for the latest breaking news and in-depth stories from around the world.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="social-icon text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
                 </div>
                 
                 <div>
-                    <h4 class="font-bold mb-4">Categories</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Education</a></li>
-                         <li><a href="#" class="text-gray-400 hover:text-white transition">Technology</a></li>
-                          <li><a href="#" class="text-gray-400 hover:text-white transition">Health</a></li>
+                    <h4 class="font-bold mb-4 text-lg">Categories</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> Education</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> Technology</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> Health</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> Business</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> Sports</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4 text-lg">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center"><i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> Advertise</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4 text-lg">Contact Info</h4>
+                    <ul class="space-y-3">
+                        <li class="text-gray-400 flex items-start"><i class="fas fa-map-marker-alt mr-3 mt-1 text-blue-400"></i> 123 News Street, Nairobi, Kenya</li>
+                        <li class="text-gray-400 flex items-center"><i class="fas fa-phone-alt mr-3 text-blue-400"></i> +254 712 345 678</li>
+                        <li class="text-gray-400 flex items-center"><i class="fas fa-envelope mr-3 text-blue-400"></i> info@knews.co.ke</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2023 K-News. All rights reserved. Designed with <i class="fas fa-heart text-red-500"></i> in Kenya.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Modal Template -->
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="relative">
+                <img id="modalImage" src="" alt="" class="w-full h-64 object-cover">
+                <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent h-32"></div>
+                <div class="absolute bottom-4 left-6 text-white">
+                    <span id="modalCategory" class="text-sm font-semibold bg-blue-500 px-3 py-1 rounded-full"></span>
+                    <h2 id="modalTitle" class="text-2xl font-bold mt-2"></h2>
+                    <p id="modalDate" class="text-sm opacity-90"></p>
+                </div>
+            </div>
+            <div class="p-6">
+                <div id="modalContent" class="prose max-w-none"></div>
+                <div class="mt-8 flex justify-between items-center">
+                    <div class="flex space-x-2">
+                        <span class="text-gray-500">Share:</span>
+                        <a href="#" class="text-blue-500 hover:text-blue-700"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-blue-400 hover:text-blue-600"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-red-500 hover:text-red-700"><i class="fab fa-pinterest"></i></a>
+                        <a href="#" class="text-blue-700 hover:text-blue-900"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                    <button class="read-more-btn" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-</ul>
-</div>
-</div>
-</div>
-</footer>
+    <script>
+        // Initialize particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const numberOfParticles = 30;
+            
+            for (let i = 0; i < numberOfParticles; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 5 + 2;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 15 + Math.random() * 15;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Mobile menu toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+            
+            const icon = this.querySelector('i');
+            if (mobileMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // Scroll effect for navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+            
+            // Update loading bar (for demo purposes)
+            const scrollPercentage = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('loadingBar').style.width = `${scrollPercentage}%`;
+        });
+        
+        // Filter news function
+        function filterNews(category) {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const newsCards = document.querySelectorAll('.news-card');
+            
+            newsCards.forEach(card => {
+                if (category === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    if (card.getAttribute('data-category') === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+        
+        // Search news function
+        function searchNews() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (searchTerm.trim() !== '') {
+                const newsCards = document.querySelectorAll('.news-card');
+                let foundResults = false;
+                
+                newsCards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const content = card.querySelector('p').textContent.toLowerCase();
+                    const category = card.getAttribute('data-category');
+                    
+                    if (title.includes(searchTerm) || content.includes(searchTerm) || category.includes(searchTerm)) {
+                        card.style.display = 'block';
+                        foundResults = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                if (!foundResults) {
+                    alert('No results found for: ' + searchTerm);
+                }
+            } else {
+                // If search is empty, show all cards
+                const newsCards = document.querySelectorAll('.news-card');
+                newsCards.forEach(card => {
+                    card.style.display = 'block';
+                });
+            }
+        }
+        
+        // Show search suggestions
+        function showSearchSuggestions() {
+            const searchInput = document.getElementById('searchInput');
+            const suggestions = document.getElementById('searchSuggestions');
+            
+            if (searchInput.value.length > 0) {
+                suggestions.classList.add('active');
+            } else {
+                suggestions.classList.remove('active');
+            }
+        }
+        
+        // Select search suggestion
+        function selectSuggestion(term) {
+            document.getElementById('searchInput').value = term;
+            document.getElementById('searchSuggestions').classList.remove('active');
+            searchNews();
+        }
+        
+        // Scroll to section
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                window.scrollTo({
+                    top: section.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                const mobileMenu = document.getElementById('mobileMenu');
+                if (mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                    document.getElementById('mobileMenuButton').querySelector('i').classList.remove('fa-times');
+                    document.getElementById('mobileMenuButton').querySelector('i').classList.add('fa-bars');
+                }
+            }
+        }
+        
+        // Slideshow functionality
+        let slideIndex = 0;
+        showSlides(slideIndex);
+        
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+        
+        function currentSlide(n) {
+            showSlides(slideIndex = n - 1);
+        }
+        
+        function showSlides(n) {
+            const slides = document.querySelectorAll('.slide');
+            const indicators = document.querySelectorAll('.slide-indicator');
+            
+            if (n >= slides.length) { slideIndex = 0; }
+            if (n < 0) { slideIndex = slides.length - 1; }
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+            
+            slides[slideIndex].classList.add('active');
+            indicators[slideIndex].classList.add('active');
+        }
+        
+        // Auto advance slides
+        setInterval(() => {
+            plusSlides(1);
+        }, 5000);
+        
+        // Modal functions
+        function openModal(articleId) {
+            // In a real implementation, this would show specific content based on the article
+            document.getElementById('articleModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Sample content for each article
+            const articles = {
+                'ascasummit': {
+                    image: 'summit.jpeg',
+                    category: 'Office',
+                    title: 'ASCA Summit',
+                    date: 'June 15, 2023',
+                    content: `
+                        <p>KMET participated in the Smart City Summit, where we had the opportunity to engage with the Governor's team, members of the county cabinet, and other key delegates. During the summit, our team presented KMET's mission and highlighted our innovative initiatives in health, education, and sustainable development.</p>
+                        <p>Through this engagement, we reaffirmed our commitment to partnerships that foster smart, inclusive, and sustainable cities, while showcasing the role of social enterprises such as the Centre for Maternal Health Innovations (CMHI).</p>
+                        <p>The summit provided an excellent platform for networking and knowledge exchange, allowing us to explore potential collaborations with both public and private sector stakeholders. We are excited about the opportunities that emerged from this event and look forward to implementing new initiatives that will benefit our communities.</p>
+                        <h3>Key Takeaways</h3>
+                        <ul>
+                            <li>Strengthened relationships with county government officials</li>
+                            <li>Showcased KMET's innovative approaches to community development</li>
+                            <li>Identified new partnership opportunities for sustainable urban development</li>
+                            <li>Gained insights into smart city initiatives from across the region</li>
+                        </ul>
+                    `
+                },
+                'youthday': {
+                    image: 'youth.jpg',
+                    category: 'Events',
+                    title: 'KMET Volunteers Celebrate International Youth Day',
+                    date: 'August 12, 2023',
+                    content: `
+                        <p>KMET volunteers joined hands to celebrate International Youth Day, with the event highlighting the power of young people in driving community change. The Reproductive Health (RH) Department led the celebrations by taking time to educate volunteers on the importance of meaningful youth participation.</p>
+                        <p>Through interactive discussions, the RH team emphasized that youth should not only benefit from programs but also take active roles in decision-making and leadership. Volunteers reflected on their experiences, shared ideas, and pledged to use their voices and energy to create positive impact in their communities.</p>
+                        <p>The day ended with a strong call to action: for youth to champion participation and remain at the forefront of shaping healthier, more inclusive futures.</p>
+                        <h3>Event Highlights</h3>
+                        <ul>
+                            <li>Interactive workshops on youth leadership and participation</li>
+                            <li>Discussion forums on community development initiatives</li>
+                            <li>Networking opportunities with like-minded youth volunteers</li>
+                            <li>Commitment pledges for community engagement</li>
+                        </ul>
+                    `
+                },
+                // Add more articles as needed
+                'default': {
+                    image: 'https://source.unsplash.com/random/800x600/?news',
+                    category: 'News',
+                    title: 'Article Title',
+                    date: 'Date',
+                    content: '<p>Article content goes here...</p>'
+                }
+            };
+            
+            const article = articles[articleId] || articles['default'];
+            
+            document.getElementById('modalImage').src = article.image;
+            document.getElementById('modalCategory').textContent = article.category;
+            document.getElementById('modalTitle').textContent = article.title;
+            document.getElementById('modalDate').textContent = article.date;
+            document.getElementById('modalContent').innerHTML = article.content;
+        }
+        
+        function closeModal() {
+            document.getElementById('articleModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('articleModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+        
+        // Initialize when page loads
+        window.addEventListener('load', function() {
+            createParticles();
+            
+            // Animate elements on scroll
+            const animatedElements = document.querySelectorAll('.animate-fade-in');
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+            });
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeIn 0.6s ease forwards';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Update world news (simulated)
+            updateWorldNews();
+        });
+        
+        // Simulated world news update
+        function updateWorldNews() {
+            // In a real implementation, this would fetch from a news API
+            console.log('World news updated');
+        }
+    </script>
 </body>
 </html>
